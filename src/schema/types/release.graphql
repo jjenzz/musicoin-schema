@@ -1,5 +1,5 @@
 type Release implements Node {
-	id: ID!
+	id: String
 }
 
 type ReleaseList implements List {

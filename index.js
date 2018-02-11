@@ -1,43 +1,43 @@
 const express = require('express');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
-const {
-	makeExecutableSchema,
-	addMockFunctionsToSchema,
-} = require('graphql-tools');
 const { execute, subscribe, printSchema } = require('graphql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
-const mergeSchemas = require('merge-graphql-schemas');
-const mocks = require('./src/mocks');
-
-const schemaPath = path.join(__dirname, './src/schema');
-const typesArray = mergeSchemas.fileLoader(schemaPath, { recursive: true });
-const typeDefs = mergeSchemas.mergeTypes(typesArray);
-const schema = makeExecutableSchema({ typeDefs });
+const { schema } = require('./src/api/schema');
+const { mockSchema } = require('./src/mock/schema');
 
 const environment = process.env.NODE_ENV;
 const port = process.env.PORT || 3001;
+const isDevelopment = environment === 'development';
 
 const server = express();
 const endpointURL = '/graphql';
+const mockEndpointURL = '/mock/graphql';
 
 server.use(cors());
-
-addMockFunctionsToSchema({ schema, mocks });
 
 // GraphQL endpoint
 server.use(endpointURL, bodyParser.json(), graphqlExpress({ schema }));
 
 // GraphiQL, a visual editor for queries and schema documentation
-server.use('/', graphiqlExpress({ endpointURL }));
+server.use('/graphiql', graphiqlExpress({ endpointURL }));
+
+// GraphQL mock endpoint
+server.use(
+	mockEndpointURL,
+	bodyParser.json(),
+	graphqlExpress({ schema: mockSchema })
+);
+
+// GraphiQL mock, a visual editor for queries and schema documentation
+server.use('/mock/graphiql', graphiqlExpress({ endpointURL: mockEndpointURL }));
 
 server.listen(port);
 
-if (environment === 'development') {
+if (isDevelopment) {
 	console.log('\r\n----------------------------------------');
 	console.log('Schema');
 	console.log('----------------------------------------\r\n');
 	console.log(printSchema(schema));
-	console.log(`Running on http://localhost:${port}`);
+	console.log(`Go to http://localhost:${port}/graphiql to run queries!`);
 }

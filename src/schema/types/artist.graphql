@@ -1,5 +1,7 @@
 type Artist implements Node {
-	id: ID!
+	id: String
+	artistName: String
+	balance: String
 }
 
 type ArtistList implements List {
@@ -8,5 +10,6 @@ type ArtistList implements List {
 }
 
 type Query {
+	artist(id: String!): Artist!
 	allArtists: ArtistList!
 }

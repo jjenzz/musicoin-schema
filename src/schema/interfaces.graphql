@@ -1,5 +1,5 @@
 interface Node {
-	id: ID!
+	id: String
 }
 
 interface List {
