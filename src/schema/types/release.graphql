@@ -1,0 +1,13 @@
+type Release implements Node {
+	id: ID!
+}
+
+type ReleaseList implements List {
+	count: Int!
+	totalPlays: Int!
+	nodes: [Release]!
+}
+
+type Query {
+	allReleases: ReleaseList!
+}

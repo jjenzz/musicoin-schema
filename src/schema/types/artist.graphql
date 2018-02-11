@@ -1,0 +1,12 @@
+type Artist implements Node {
+	id: ID!
+}
+
+type ArtistList implements List {
+	count: Int!
+	nodes: [Artist]!
+}
+
+type Query {
+	allArtists: ArtistList!
+}
