@@ -1,5 +1,7 @@
 type Release implements Node {
 	id: String
+	title: String
+	audioUrl: String
 }
 
 type ReleaseList implements List {

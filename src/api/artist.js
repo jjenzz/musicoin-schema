@@ -1,14 +1,19 @@
 const { request } = require('./utils/request');
 
-module.exports.artist = (_, { id }) => {
-	return request(`/artist/profile/${id}`).then(res => res.json());
-};
-
-module.exports.allArtists = () => {
-	return request('/artists')
+function artist(_, { id }) {
+	return request(`/artist/${id}`)
 		.then(res => res.json())
-		.then(res => ({
-			count: res.nodes.length,
-			nodes: res.nodes,
-		}));
+		.then(({ artist, releases }) => Object.assign({}, artist, { releases }));
+}
+
+function featuredArtists() {
+	return request(`/artists/featured`)
+		.then(res => res.json())
+		.then(artists => artists.map(({ profileAddress }) => profileAddress))
+		.then(ids => ids.map(id => artist(null, { id })));
+}
+
+module.exports = {
+	artist,
+	featuredArtists,
 };

@@ -8,7 +8,6 @@ const { mockSchema } = require('./src/mock/schema');
 
 const environment = process.env.NODE_ENV;
 const port = process.env.PORT || 3001;
-const isDevelopment = environment === 'development';
 
 const server = express();
 const endpointURL = '/graphql';
@@ -34,7 +33,7 @@ server.use('/mock/graphiql', graphiqlExpress({ endpointURL: mockEndpointURL }));
 
 server.listen(port);
 
-if (isDevelopment) {
+if (environment !== 'production') {
 	console.log('\r\n----------------------------------------');
 	console.log('Schema');
 	console.log('----------------------------------------\r\n');
