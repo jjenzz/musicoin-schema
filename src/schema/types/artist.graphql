@@ -9,6 +9,8 @@ type Artist implements Node {
 
 type ArtistList implements List {
 	count: Int!
+	totalReleases: Int!
+	totalPlays: Int!
 	nodes: [Artist]!
 }
 
