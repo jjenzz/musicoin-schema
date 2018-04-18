@@ -1,5 +1,5 @@
-const { ArtistList } = require('./artist');
+const { Stats } = require('./stats');
 
 module.exports = {
-	ArtistList,
+	Stats,
 };
