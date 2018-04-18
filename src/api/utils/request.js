@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').load();
 }
 
-const uri = 'https://musicoin.org/json-api';
+const uri = 'https://musicoin.org';
 const clientId = process.env.MUSICOIN_CLIENT_ID;
 
 module.exports.request = resource => {
