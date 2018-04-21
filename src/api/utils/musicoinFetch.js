@@ -7,6 +7,6 @@ if (process.env.NODE_ENV !== 'production') {
 const uri = 'https://musicoin.org';
 const clientId = process.env.MUSICOIN_CLIENT_ID;
 
-module.exports.request = resource => {
+module.exports.musicoinFetch = resource => {
 	return fetch(`${uri}${resource}`, { headers: { clientId } });
 };

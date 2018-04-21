@@ -2,4 +2,5 @@ type Stats {
 	totalArtists: Int!
 	totalPlays: Int!
 	totalReleases: Int!
+	priceUsd: Float!
 }

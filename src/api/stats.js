@@ -1,13 +1,16 @@
-const { request } = require('./utils/request');
+const { musicoinFetch } = require('./utils/musicoinFetch');
+const { coinMarketCapFetch } = require('./utils/coinMarketCapFetch');
 
 function stats() {
-	const totalReleases = request('/totalreleases');
-	const totalPlays = request('/totalplays');
-	const totalArtists = request('/totalartists');
+	const totalReleases = musicoinFetch('/totalreleases');
+	const totalPlays = musicoinFetch('/totalplays');
+	const totalArtists = musicoinFetch('/totalartists');
+	const ticker = coinMarketCapFetch('/ticker/musicoin');
 
-	return Promise.all([totalReleases, totalPlays, totalArtists])
+	return Promise.all([totalReleases, totalPlays, totalArtists, ticker])
 		.then(results => results.map(result => result.json()))
-		.then(([totalReleases, totalPlays, totalArtists]) => ({
+		.then(([totalReleases, totalPlays, totalArtists, ticker]) => ({
+			priceUsd: ticker.then(result => Number(result[0].price_usd)),
 			totalReleases,
 			totalPlays,
 			totalArtists,
