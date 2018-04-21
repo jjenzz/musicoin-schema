@@ -12,8 +12,23 @@ const port = process.env.PORT || 3001;
 const server = express();
 const endpointURL = '/graphql';
 const mockEndpointURL = '/mock/graphql';
+const corsWhitelist = [
+	'http://musicoin-frontend.netlify.com',
+	'https://musicoin.org',
+	'http://localhost:3000',
+];
 
-server.use(cors());
+const corsOptions = {
+	origin(origin, callback) {
+		if (corsWhitelist.indexOf(origin) !== -1) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	},
+};
+
+server.use(cors(corsOptions));
 
 // GraphQL endpoint
 server.use(endpointURL, bodyParser.json(), graphqlExpress({ schema }));
