@@ -1,0 +1,8 @@
+type Tweet {
+	url: String!
+	html: String!
+}
+
+type Query {
+	tweets(query: String!, count: Int): [Tweet!]
+}

@@ -14,13 +14,15 @@ const endpointURL = '/graphql';
 const mockEndpointURL = '/mock/graphql';
 const corsWhitelist = [
 	'http://musicoin-frontend.netlify.com',
+	'https://musicoin-schema.herokuapp.com',
 	'https://musicoin.org',
 	'http://localhost:3000',
+	'http://localhost:3001',
 ];
 
 const corsOptions = {
 	origin(origin, callback) {
-		if (corsWhitelist.indexOf(origin) !== -1) {
+		if (!origin || corsWhitelist.indexOf(origin) !== -1) {
 			callback(null, true);
 		} else {
 			callback(new Error('Not allowed by CORS'));

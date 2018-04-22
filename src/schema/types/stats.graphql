@@ -4,3 +4,7 @@ type Stats {
 	totalReleases: Int!
 	priceUsd: Float!
 }
+
+type Query {
+	stats: Stats!
+}

@@ -10,5 +10,4 @@ type Artist implements Node {
 type Query {
 	artist(id: String!): Artist!
 	featuredArtists: [Artist]!
-	stats: Stats!
 }
