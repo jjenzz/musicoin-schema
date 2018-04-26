@@ -3,6 +3,7 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { execute, subscribe, printSchema } = require('graphql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const url = require('url');
 const { schema } = require('./src/api/schema');
 const { mockSchema } = require('./src/mock/schema');
 
@@ -13,16 +14,18 @@ const server = express();
 const endpointURL = '/graphql';
 const mockEndpointURL = '/mock/graphql';
 const corsWhitelist = [
-	'http://musicoin-frontend.netlify.com',
-	'https://musicoin-schema.herokuapp.com',
-	'https://musicoin.org',
-	'http://localhost:3000',
-	'http://localhost:3001',
+	/musicoin-frontend.netlify.com$/,
+	/musicoin-schema.herokuapp.com$/,
+	/musicoin.org$/,
+	/localhost$/,
 ];
 
 const corsOptions = {
 	origin(origin, callback) {
-		if (!origin || corsWhitelist.indexOf(origin) !== -1) {
+		const location = url.parse(origin) || {};
+		const hostname = location.hostname;
+
+		if (!origin || corsWhitelist.some(regex => regex.test(hostname))) {
 			callback(null, true);
 		} else {
 			callback(new Error('Not allowed by CORS'));
