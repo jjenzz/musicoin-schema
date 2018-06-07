@@ -21,7 +21,7 @@ const corsWhitelist = [
 ];
 
 const corsOptions = {
-	origin(origin, callback) {
+	origin(origin = "", callback) {
 		const location = url.parse(origin) || {};
 		const hostname = location.hostname;
 
