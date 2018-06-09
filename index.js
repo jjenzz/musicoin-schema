@@ -15,6 +15,7 @@ const endpointURL = '/graphql';
 const mockEndpointURL = '/mock/graphql';
 const corsWhitelist = [
 	/musicoin-frontend.netlify.com$/,
+	/musicoin.netlify.com$/,
 	/musicoin-schema.herokuapp.com$/,
 	/musicoin.org$/,
 	/localhost$/,
