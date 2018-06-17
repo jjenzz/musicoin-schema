@@ -1,4 +1,5 @@
 type Tweet {
+	author_url: String!
 	url: String!
 	html: String!
 }
