@@ -1,22 +1,31 @@
 const { musicoinFetch } = require('./utils/musicoinFetch');
 const { coinMarketCapFetch } = require('./utils/coinMarketCapFetch');
+const fetch = require('node-fetch');
 
-function stats() {
-	const totalReleases = musicoinFetch('/totalreleases');
-	const totalPlays = musicoinFetch('/totalplays');
-	const totalArtists = musicoinFetch('/totalartists');
-	const ticker = coinMarketCapFetch('/ticker/musicoin');
+const uri = 'https://staging.musicoin.org/';
 
-	return Promise.all([totalReleases, totalPlays, totalArtists, ticker])
-		.then(results => results.map(result => result.json()))
-		.then(([totalReleases, totalPlays, totalArtists, ticker]) => ({
-			priceUsd: ticker.then(result => Number(result[0].price_usd)),
-			totalReleases,
-			totalPlays,
-			totalArtists,
-		}));
-}
-
-module.exports = {
-	stats,
+const Stats = {
+	totalArtists: () => {
+		return fetch(`${uri}/totalartists}`)
+			.then(response => response.text())
+			.then(Number);
+	},
+	totalPlays: () => {
+		return fetch(`${uri}/totalplays}`)
+			.then(response => response.text())
+			.then(Number);
+	},
+	totalReleases: () => {
+		return fetch(`${uri}/totalreleases}`)
+			.then(response => response.text())
+			.then(Number);
+	},
+	priceUsd: () => {
+		return coinMarketCapFetch('/ticker/musicoin')
+			.then(response => response.json())
+			.then(response => response[0].price_usd)
+			.then(Number);
+	},
 };
+
+module.exports = Stats;
